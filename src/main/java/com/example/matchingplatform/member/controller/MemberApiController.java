@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.matchingplatform.common.LogExecution;
 import com.example.matchingplatform.member.controller.dto.GetProfileResponse;
 import com.example.matchingplatform.member.controller.dto.ProfileSortType;
 import com.example.matchingplatform.member.controller.dto.ViewProfileRequest;
@@ -24,6 +25,7 @@ public class MemberApiController {
     private final MemberService memberService;
 
     @GetMapping("/profiles")
+    @LogExecution("회원 프로필 전체 목록 조회")
     public ResponseEntity<Page<GetProfileResponse>> getProfileList(
             ProfileSortType profileSortType,
             Pageable pageable) {
@@ -36,6 +38,7 @@ public class MemberApiController {
      * 단순 조회가 아닌 조회수 증가 상태 변경 포함
      */
     @PostMapping("/profile/view-count")
+    @LogExecution("회원 프로필 상세 조회(+조회수증가)")
     public ResponseEntity<GetProfileResponse> viewCount(@RequestBody ViewProfileRequest request) {
         GetProfileResponse response = memberService.viewCount(request);
         return ResponseEntity.ok(response);
