@@ -25,10 +25,12 @@ spring:
             level:
                 '[org.hibernate.SQL]': debug
                 '[org.hibernate.type]': trace
+
 logging:
     level:
         root: info
     pattern:
-        console: "%blue(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%highlight(%-5level)] %yellow(%thread) %cyan(%logger{36}) - %msg%n"
+        console: "%blue(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%highlight(%-5level)] %yellow(%thread) %cyan(%logger{36}) %magenta([traceId=%X{traceId}]) - %msg%n"
+
 server:
     port: 8080
