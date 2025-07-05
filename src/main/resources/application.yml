@@ -1,0 +1,34 @@
+spring:
+    application:
+        name: matchingplatform
+    datasource:
+        url: jdbc:mysql://localhost:3306/matching_platform?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+        username: root
+        password: 1234
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    data:
+        redis:
+            host: localhost
+            port: 6379
+    jpa:
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQLDialect
+                '[show_sql]': true
+                '[format_sql]': true
+                '[highlight_sql]': true
+                '[default_batch_fetch_size]': 100
+                '[use_sql_comments]': true
+            logging:
+            level:
+                '[org.hibernate.SQL]': debug
+                '[org.hibernate.type]': trace
+logging:
+    level:
+        root: info
+    pattern:
+        console: "%blue(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%highlight(%-5level)] %yellow(%thread) %cyan(%logger{36}) - %msg%n"
+server:
+    port: 8080
