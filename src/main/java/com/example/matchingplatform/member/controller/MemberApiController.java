@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.matchingplatform.common.LogExecution;
+import com.example.matchingplatform.common.Utils;
 import com.example.matchingplatform.member.controller.dto.GetProfileResponse;
 import com.example.matchingplatform.member.controller.dto.ProfileSortType;
 import com.example.matchingplatform.member.controller.dto.ViewProfileRequest;
 import com.example.matchingplatform.member.service.MemberService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -39,8 +41,10 @@ public class MemberApiController {
      */
     @PostMapping("/profile/view-count")
     @LogExecution("회원 프로필 상세 조회(+조회수증가)")
-    public ResponseEntity<GetProfileResponse> viewCount(@RequestBody ViewProfileRequest request) {
-        GetProfileResponse response = memberService.viewCount(request);
+    public ResponseEntity<GetProfileResponse> viewCount(
+            @RequestBody ViewProfileRequest request,
+            HttpServletRequest httpRequest) {
+        GetProfileResponse response = memberService.viewCount(request, Utils.getClientIp(httpRequest));
         return ResponseEntity.ok(response);
     }
 }

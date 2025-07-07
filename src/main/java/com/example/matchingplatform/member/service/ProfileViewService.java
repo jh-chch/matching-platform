@@ -23,28 +23,22 @@ public class ProfileViewService {
      * 
      * @param profileEntity 조회 프로필 엔티티 객체
      */
-    public void handleView(ProfileEntity profileEntity) {
-        String email = profileEntity.getMemberEntity().getEmail();
+    public void handleView(ProfileEntity profileEntity, String viewerIp) {
         Long profileId = profileEntity.getId();
 
-        if (!isDuplicateView(email, profileId)) {
+        if (markViewed(viewerIp, profileId)) {
             profileEntity.increaseViewCount();
-            markViewed(email, profileId);
         }
     }
 
-    private String generateKey(String memberEmail, Long profileId) {
-        return "viewed:" + memberEmail + ":" + profileId;
+    public boolean markViewed(String viewerIp, Long profileId) {
+        String key = generateKey(viewerIp, profileId);
+        Boolean success = redisTemplate.opsForValue()
+                .setIfAbsent(key, "1", Duration.ofSeconds(VIEW_BLOCK_SECONDS));
+        return Boolean.TRUE.equals(success);
     }
 
-    public boolean isDuplicateView(String memberEmail, Long profileId) {
-        String key = generateKey(memberEmail, profileId);
-        Boolean exists = redisTemplate.hasKey(key);
-        return Boolean.TRUE.equals(exists);
-    }
-
-    public void markViewed(String memberEmail, Long profileId) {
-        String key = generateKey(memberEmail, profileId);
-        redisTemplate.opsForValue().set(key, "1", Duration.ofSeconds(VIEW_BLOCK_SECONDS));
+    private String generateKey(String viewerIp, Long profileId) {
+        return "viewerIp:" + viewerIp + ":" + profileId;
     }
 }

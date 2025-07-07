@@ -30,14 +30,14 @@ public class MemberService {
     }
 
     @Transactional
-    public GetProfileResponse viewCount(ViewProfileRequest request) {
+    public GetProfileResponse viewCount(ViewProfileRequest request, String viewerIp) {
         // 회원 프로필 조회
         ProfileEntity profileEntity = profileJpaRepository
                 .findByEmailAndCategory(request.getEmail(), Category.fromString(request.getCategory()))
                 .orElseThrow(() -> new MemberServiceException(PROFILE_NOT_FOUND));
 
         // 조회수 증가 처리
-        profileViewService.handleView(profileEntity);
+        profileViewService.handleView(profileEntity, viewerIp);
 
         return GetProfileResponse.fromEntity(profileEntity);
     }
