@@ -34,3 +34,6 @@ logging:
 
 server:
     port: 8080
+
+toss:
+    secret-key: "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm"
