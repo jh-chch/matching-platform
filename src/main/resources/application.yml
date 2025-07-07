@@ -2,14 +2,17 @@ spring:
     application:
         name: matchingplatform
     datasource:
-        url: jdbc:mysql://localhost:3306/matching_platform?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-        username: root
-        password: 1234
+        url: ${SPRING_DATASOURCE_URL}
+        username: ${SPRING_DATASOURCE_USERNAME}
+        password: ${SPRING_DATASOURCE_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
+        hikari:
+            connection-timeout: 60000
+            initialization-fail-timeout: -1
     data:
         redis:
-            host: localhost
-            port: 6379
+            host: ${SPRING_REDIS_HOST}
+            port: ${SPRING_REDIS_PORT}
     jpa:
         hibernate:
             ddl-auto: create
