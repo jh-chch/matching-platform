@@ -89,17 +89,16 @@ curl -X POST "http://localhost:8081/api/members/profile/view-count" \
 
 **POST** `/api/point/charge`
 
-결제 승인 확인 후후 포인트를 충전합니다.
+결제 승인 확인 후 포인트를 충전합니다.
 
-- 포인트는 원화 1:1 비율로 충전
-- Toss Payments 연동 (테스트 키 사용)
-- 결제 성공 시 포인트 적립
-- 중복 결제 방지 및 승인 확인 처리 포함
-- 인증/인가 로직은 생략
+- 사용한 결제 테스트 시크릿키: `test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm`
+- Toss Payments paymentKey로 결제 조회 API 연동 (테스트 키 사용)
+- 결제 승인 확인 시 포인트 적립 (회원 <-> 결제 인증, 회원 인증/인가 생략)
+- 중복 포인트 적립 방지
 - [Toss 결제 흐름](https://docs.tosspayments.com/guides/v2/get-started/payment-flow#요청-인증-승인)
 - [Toss 결제 테스트](https://developers.tosspayments.com/sandbox)
 - [Toss PaymentKey로 조회](https://docs.tosspayments.com/reference/test/v1/payments/{paymentKey}/GET)
-- 사용한 결제 테스트 시크릿키: `test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm`
+
 
 ```bash
 curl -X POST "http://localhost:8081/api/point/charge" \
