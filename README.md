@@ -3,7 +3,9 @@
 회원 조회, 조회수, 포인트 충전 (Toss PaymentKey로 결제 조회 후 회원 포인트 적립하기) 
 
 ### Docker 환경 실행
-
+```bash
+./gradlew clean build
+```
 ```bash
 docker-compose up --build
 ```
