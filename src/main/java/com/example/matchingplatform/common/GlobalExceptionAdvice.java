@@ -15,13 +15,13 @@ public class GlobalExceptionAdvice {
     public ResponseEntity<ApiErrorResponse> handleServiceException(ServiceException e) {
         return ResponseEntity
                 .status(e.getHttpStatus())
-                .body(ApiErrorResponse.of(e.getHttpStatus(), e.getMessage()));
+                .body(ApiErrorResponse.of(e.getHttpStatus(), e.getErrorCode(), e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleException(Exception e) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류가 발생했습니다."));
+                .body(ApiErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR" , "서버 내부 오류가 발생했습니다."));
     }
 }
