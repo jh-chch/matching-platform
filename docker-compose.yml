@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   app:
     build: 
@@ -7,14 +7,12 @@ services:
     ports:
       - "8081:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/matching_platform?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 1234
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - db
-      - redis
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
 
   db:
     image: mysql:latest
@@ -23,9 +21,17 @@ services:
       MYSQL_DATABASE: matching_platform
     ports:
       - "3307:3306"
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
   redis:
     image: redis:latest
     ports:
       - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
