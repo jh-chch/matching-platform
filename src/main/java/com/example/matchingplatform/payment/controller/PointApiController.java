@@ -11,6 +11,7 @@ import com.example.matchingplatform.payment.controller.dto.PointChargeRequest;
 import com.example.matchingplatform.payment.controller.dto.PointChargeResponse;
 import com.example.matchingplatform.payment.service.PointChargeService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,7 +23,7 @@ public class PointApiController {
 
     @PostMapping("/charge")
     @LogExecution("포인트 충전")
-    public ResponseEntity<PointChargeResponse> charge(@RequestBody PointChargeRequest request) {
+    public ResponseEntity<PointChargeResponse> charge(@Valid @RequestBody PointChargeRequest request) {
         var charge = pointChargeService.charge(request);
         return ResponseEntity.ok(charge);
     }

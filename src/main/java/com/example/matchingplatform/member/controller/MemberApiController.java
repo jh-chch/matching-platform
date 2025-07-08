@@ -17,6 +17,7 @@ import com.example.matchingplatform.member.controller.dto.ViewProfileRequest;
 import com.example.matchingplatform.member.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -42,7 +43,7 @@ public class MemberApiController {
     @PostMapping("/profile/view-count")
     @LogExecution("회원 프로필 상세 조회(+조회수증가)")
     public ResponseEntity<GetProfileResponse> viewCount(
-            @RequestBody ViewProfileRequest request,
+            @Valid @RequestBody ViewProfileRequest request,
             HttpServletRequest httpRequest) {
         GetProfileResponse response = memberService.viewCount(request, Utils.getClientIp(httpRequest));
         return ResponseEntity.ok(response);
